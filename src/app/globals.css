@@ -1,0 +1,276 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@media (max-width: 1733px) {
+  #free {
+    height: 36% !important;
+  }
+
+  #paid {
+    top: calc(230px + 38%) !important;
+  }
+
+  #item-height {
+    height: 300px !important;
+  }
+}
+
+@media (max-width: 1656px) {
+  #free {
+    height: 39% !important;
+  }
+
+  #paid {
+    top: calc(230px + 40%) !important;
+  }
+
+  #item-height {
+    height: 320px !important;
+  }
+}
+
+
+@media (max-width: 1289px) {
+  #free {
+    height: 42% !important;
+  }
+
+  #paid {
+    top: calc(230px + 42%) !important;
+  }
+
+  #item-height {
+    height: 350px !important;
+  }
+}
+
+
+@media (max-width: 1155px) {
+  #free {
+    height: 43% !important;
+  }
+
+  #paid {
+    top: calc(230px + 43%) !important;
+  }
+
+  #item-height {
+    height: 370px !important;
+  }
+}
+
+
+@media (max-width: 1069px) {
+  #module-title {
+    padding-top: 180px !important;
+  }
+
+  #free {
+    height: 43% !important;
+  }
+
+  #paid {
+    top: calc(230px + 43%) !important;
+  }
+
+  #item-height {
+    height: 370px !important;
+  }
+}
+
+@media (max-width: 1069px) {
+  #module-desktop-view {
+    display: none !important;
+  }
+
+  #module-mobile-view {
+    display: block !important;
+  }
+}
+
+@media (min-width: 1070px) {
+  #module-desktop-view {
+    display: block !important;
+  }
+
+  #module-mobile-view {
+    display: none !important;
+  }
+}
+
+
+@media (max-width: 1499px) {
+  .road-title {
+    font-size: 2.1rem !important;
+  }
+
+  .road-desc {
+    font-size: 0.775rem !important;
+  }
+
+  .road-image {
+    width: 65% !important;
+  }
+
+  .road-image-step3 {
+    width: 50% !important;
+  }
+}
+
+@media (max-width: 1399px) {
+  .road-title {
+    font-size: 1.9rem !important;
+  }
+
+  .road-desc {
+    font-size: 0.675rem !important;
+  }
+
+  .road-image {
+    width: 55% !important;
+  }
+
+  .road-image-step3 {
+    width: 40% !important;
+  }
+
+  #road-image1 {
+    width: 80% !important;
+  }
+}
+
+
+@media (max-width: 1242px) {
+  .road-title {
+    font-size: 1.7rem !important;
+  }
+
+  .road-desc {
+    font-size: 0.575rem !important;
+    line-height: 1.05rem !important;
+  }
+
+  .road-image {
+    width: 50% !important;
+  }
+
+  .road-image-step3 {
+    width: 35% !important;
+  }
+
+  #road-image1 {
+    width: 70% !important;
+  }
+
+  #step2 {
+    left: 32% !important;
+  }
+}
+
+@media (max-width: 1059px) {
+  .road-title {
+    font-size: 1.6rem !important;
+  }
+
+  .road-desc {
+    font-size: 0.505rem !important;
+    line-height: 0.85rem !important;
+  }
+
+  .road-image {
+    width: 50% !important;
+  }
+
+  .road-image-step3 {
+    width: 35% !important;
+  }
+
+  #road-image1 {
+    width: 70% !important;
+  }
+
+  #step2 {
+    left: 33% !important;
+  }
+}
+
+@media (max-width: 930px) {
+  .desktop-road {
+    display: none !important;
+  }
+}
+
+
+@media (max-width: 930px) {
+  .mobile-road {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 662px) {
+  .road-title-mobile {
+    font-size: 1rem !important;
+  }
+
+  .road-desc-mobile {
+    font-size: 8px !important;
+  }
+
+  #road-image1-mobile {
+    width: 80% !important;
+  }
+
+  #road-image-step3-mobile {
+    width: 80% !important;
+  }
+}
+
+
+@media (max-width: 550px) {
+  #step2-mobile {
+    top: 35% !important;
+  }
+}
+
+@media (max-width: 529px) {
+  #road-image1-mobile {
+    width: 60% !important;
+  }
+
+  .road-desc-mobile {
+    padding-bottom: 5px !important;
+  }
+
+  #road-image1-mobile {
+    margin-left: -5px !important;
+  }
+}
+
+@media (max-width: 522px) {
+  .road-title-mobile {
+    font-size: 0.8rem !important;
+  }
+
+  .road-desc-mobile {
+    font-size: 5px !important;
+  }
+}

@@ -1,0 +1,37 @@
+'use client';
+
+// @mui
+import Container from '@mui/material/Container';
+// routes
+import { paths } from 'src/routes/paths';
+// components
+import { useSettingsContext } from 'src/components/settings';
+import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+//
+import LoanExtendForm from '../loan-extend-form';
+
+// ----------------------------------------------------------------------
+
+export default function LoanExtendView({ id }) {
+  const settings = useSettingsContext();
+
+  return (
+    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+      <CustomBreadcrumbs
+        heading="Зээл сунгах"
+        links={[
+          {
+            name: 'Зээлийн жагсаалт',
+            href: paths.dashboard.loan.root,
+          },
+          { name: 'Зээл сунгах' },
+        ]}
+        sx={{
+          mb: { xs: 3, md: 5 },
+        }}
+      />
+
+      <LoanExtendForm id={id} />
+    </Container>
+  );
+}
