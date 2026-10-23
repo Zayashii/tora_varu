@@ -67,7 +67,6 @@ import { useForm, } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { DatePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import MenuItem from '@mui/material/MenuItem';
 import { addRiskDateOnLoan } from 'src/api/loan';
