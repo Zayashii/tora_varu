@@ -51,7 +51,7 @@ export const metadata = {
   title: 'Тора Вару',
   description:
     'Бизнес процессын зураглал, программын шаардлага, ERP болон финтек систем нэвтрүүлэлт.',
-  themeColor: '#1e5631',
+  themeColor: '#0a1028',
   openGraph: {
     title: 'Тора Вару — бизнес процесс, систем нэвтрүүлэлт',
     description:
