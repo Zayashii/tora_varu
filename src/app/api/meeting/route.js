@@ -26,6 +26,7 @@ export async function POST(request) {
     phone: clean(payload.phone, 30),
     email: clean(payload.email, 120),
     message: clean(payload.message, 2000),
+    lang: payload.lang === 'en' ? 'en' : 'mn',
     submittedAt: new Date().toISOString(),
     source: 'toravaru.mn',
   };

@@ -2,47 +2,55 @@
 
 import { useState } from 'react';
 
-import { COMPANY } from './content';
+import { useLang } from './i18n';
 import s from './landing.module.css';
 
 const EMPTY = { kind: 'company', regno: '', name: '', phone: '', email: '', message: '' };
 
-function validate(v) {
+function validate(v, msg) {
   const e = {};
-  if (!v.name.trim()) e.name = 'Нэрээ оруулна уу.';
-  if (!v.regno.trim()) e.regno = v.kind === 'company' ? 'Байгууллагын РД оруулна уу.' : 'Регистрийн дугаараа оруулна уу.';
-  if (!/^[0-9+\-\s]{8,}$/.test(v.phone.trim())) e.phone = 'Утасны дугаараа 8 оронтойгоор оруулна уу.';
-  if (!/^\S+@\S+\.\S+$/.test(v.email.trim())) e.email = 'И-мэйл хаягаа зөв оруулна уу. Жишээ нь: name@company.mn';
+  if (!v.name.trim()) e.name = msg.name;
+  if (!v.regno.trim()) e.regno = v.kind === 'company' ? msg.regnoCompany : msg.regnoPerson;
+  if (!/^[0-9+\-\s]{8,}$/.test(v.phone.trim())) e.phone = msg.phone;
+  if (!/^\S+@\S+\.\S+$/.test(v.email.trim())) e.email = msg.email;
   return e;
 }
 
-function mailtoHref(v) {
-  const subject = `Уулзалт товлох хүсэлт — ${v.name}`;
+function mailtoHref(v, to, m) {
   const body = [
-    `Нэр: ${v.name}`,
-    `${v.kind === 'company' ? 'Байгууллагын' : 'Хувь хүний'} РД: ${v.regno}`,
-    `Утас: ${v.phone}`,
-    `И-мэйл: ${v.email}`,
+    `${m.name}: ${v.name}`,
+    `${v.kind === 'company' ? m.regnoCompany : m.regnoPerson}: ${v.regno}`,
+    `${m.phone}: ${v.phone}`,
+    `${m.email}: ${v.email}`,
     '',
     v.message,
   ].join('\n');
-  return `mailto:${COMPANY.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  return `mailto:${to}?subject=${encodeURIComponent(m.subject(v.name))}&body=${encodeURIComponent(body)}`;
 }
 
 export default function MeetingForm() {
+  const { t, lang } = useLang();
+  const f = t.form;
+
   const [values, setValues] = useState(EMPTY);
-  const [errors, setErrors] = useState({});
+  const [errorKeys, setErrorKeys] = useState({});
   const [state, setState] = useState('idle'); // idle | sending | sent | fallback
+
+  // Алдааны мессежийг хэл солиход шинэчлэгдэхээр тухай бүр гаргана.
+  const errors = Object.keys(errorKeys).length ? validate(values, f.errors) : {};
+  Object.keys(errors).forEach((k) => {
+    if (!errorKeys[k]) delete errors[k];
+  });
 
   const set = (key) => (event) => {
     setValues((v) => ({ ...v, [key]: event.target.value }));
-    if (errors[key]) setErrors((e) => ({ ...e, [key]: undefined }));
+    if (errorKeys[key]) setErrorKeys((e) => ({ ...e, [key]: false }));
   };
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    const found = validate(values);
-    setErrors(found);
+    const found = validate(values, f.errors);
+    setErrorKeys(Object.fromEntries(Object.keys(found).map((k) => [k, true])));
     if (Object.keys(found).length) return;
 
     setState('sending');
@@ -50,7 +58,7 @@ export default function MeetingForm() {
       const res = await fetch('/api/meeting', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, lang }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setState('sent');
@@ -64,10 +72,10 @@ export default function MeetingForm() {
   if (state === 'sent') {
     return (
       <div className={s.formDone} role="status">
-        <p className={s.formDoneTitle}>Хүсэлт илгээгдлээ</p>
-        <p>Бид таны утас эсвэл и-мэйлээр холбогдож уулзалтын цагаа тохирно.</p>
+        <p className={s.formDoneTitle}>{f.doneTitle}</p>
+        <p>{f.doneBody}</p>
         <button type="button" className={s.btnGhostLight} onClick={() => setState('idle')}>
-          Өөр хүсэлт илгээх
+          {f.again}
         </button>
       </div>
     );
@@ -96,10 +104,10 @@ export default function MeetingForm() {
   return (
     <form className={s.form} onSubmit={onSubmit} noValidate>
       <fieldset className={s.kind}>
-        <legend className={s.fieldLabel}>Хэний нэрээр</legend>
+        <legend className={s.fieldLabel}>{f.kindLegend}</legend>
         {[
-          ['company', 'Байгууллага'],
-          ['person', 'Хувь хүн'],
+          ['company', f.company],
+          ['person', f.person],
         ].map(([val, text]) => (
           <label key={val} className={s.kindOption}>
             <input
@@ -115,33 +123,33 @@ export default function MeetingForm() {
       </fieldset>
 
       <div className={s.formGrid}>
-        {field('name', 'Таны нэр', { autoComplete: 'name' })}
-        {field('regno', values.kind === 'company' ? 'Байгууллагын РД' : 'Регистрийн дугаар')}
-        {field('phone', 'Утас', { type: 'tel', autoComplete: 'tel', inputMode: 'tel' })}
-        {field('email', 'И-мэйл', { type: 'email', autoComplete: 'email' })}
+        {field('name', f.name, { autoComplete: 'name' })}
+        {field('regno', values.kind === 'company' ? f.regnoCompany : f.regnoPerson)}
+        {field('phone', f.phone, { type: 'tel', autoComplete: 'tel', inputMode: 'tel' })}
+        {field('email', f.email, { type: 'email', autoComplete: 'email' })}
       </div>
 
       <label className={s.field} htmlFor="f-message">
-        <span className={s.fieldLabel}>Бизнесийнхээ тухай товч (заавал биш)</span>
+        <span className={s.fieldLabel}>{f.message}</span>
         <textarea
           id="f-message"
           className={s.input}
           rows={4}
           value={values.message}
           onChange={set('message')}
-          placeholder="Ямар асуудлыг шийдэх, ямар систем сонирхож буйгаа бичнэ үү."
+          placeholder={f.messagePlaceholder}
         />
       </label>
 
       {state === 'fallback' && (
         <p className={s.formNotice} role="alert">
-          Хүсэлтийг одоогоор шууд илгээж чадсангүй.{' '}
-          <a href={mailtoHref(values)}>И-мэйлээр илгээх</a> эсвэл утсаар холбогдоно уу.
+          {f.fallbackBefore} <a href={mailtoHref(values, t.company.email, f.mail)}>{f.fallbackLink}</a>{' '}
+          {f.fallbackAfter}
         </p>
       )}
 
       <button type="submit" className={s.btnAmber} disabled={state === 'sending'}>
-        {state === 'sending' ? 'Илгээж байна…' : 'Хүсэлт илгээх'}
+        {state === 'sending' ? f.sending : f.submit}
       </button>
     </form>
   );

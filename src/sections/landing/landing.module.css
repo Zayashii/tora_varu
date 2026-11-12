@@ -199,6 +199,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  white-space: nowrap;
   font-family: var(--display);
   font-weight: 600;
   font-size: 18px;
@@ -225,6 +226,45 @@
 
 .markDot {
   fill: var(--accent);
+}
+
+.headerTools {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Хэл сонгох MN | EN */
+
+.lang {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--night-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.langOption {
+  min-width: 40px;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--on-night-muted);
+  font: 600 13px/1 var(--text);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.langOption:hover {
+  color: var(--on-night);
+}
+
+.langOption[aria-pressed='true'] {
+  background: var(--on-night);
+  color: var(--night);
 }
 
 .menuButton {
@@ -261,6 +301,10 @@
 }
 
 @media (max-width: 899px) {
+  .headerTools {
+    gap: 10px;
+  }
+
   .menuButton {
     display: inline-flex;
     align-items: center;
@@ -1283,4 +1327,35 @@
 .footer .brand {
   color: var(--white);
   font-size: 16px;
+}
+
+/* Маш нарийн дэлгэц (≤ 380px): толгой хэсгийг багтаах */
+@media (max-width: 380px) {
+  .headerTools {
+    gap: 6px;
+  }
+
+  .brand {
+    font-size: 16px;
+    gap: 8px;
+  }
+
+  .langOption {
+    min-width: 32px;
+    padding: 0 7px;
+  }
+
+  .menuButton {
+    padding: 0 12px !important;
+  }
+}
+
+/* Урт и-мэйл хаяг нарийн дэлгэцэнд мөр шилжинэ */
+.person > div {
+  min-width: 0;
+}
+
+.personContact a,
+.contactList a {
+  overflow-wrap: anywhere;
 }
