@@ -26,7 +26,7 @@ const LOGOS = {
 
 const PEOPLE = [
   { initialsMn: 'ВБ', initialsEn: 'VB', phone: '9903 8090', email: 'baldandorj.v@gmail.com' },
-  { initialsMn: 'БМ', initialsEn: 'BM', phone: '8807 6842', email: 'munkhzayabya@gmail.com' },
+  { initialsMn: 'БМ', initialsEn: 'BM', phone: '9995 4236', email: 'munkhzaya@toravaru.mn' },
 ];
 
 // Процессын зураглалын алхам бүр аль эгнээнд (0 бизнес, 1 процесс, 2 систем) байрлахыг заана.
